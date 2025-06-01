@@ -1,0 +1,544 @@
+% 若编译失败，且生成 .synctex(busy) 辅助文件，可能有两个原因：
+% 1. 需要插入的图片不存在：Ctrl + F 搜索 'figure' 将这些代码注释/删除掉即可
+% 2. 路径/文件名含中文或空格：更改路径/文件名即可
+
+% --------------------- 文章宏包及相关设置 --------------------- %
+% >> ------------------ 文章宏包及相关设置 ------------------ << %
+% 设定文章类型与编码格式
+\documentclass[UTF8]{article}		
+\input{../.config/config_for_LinearCircuitExperiment.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 仅需修改页眉、实验名称、实验日期
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%% 1. 修改页眉内容 %%%%%%%%%%%%%%%%%%
+\rhead{LCE-08 运放参数测量 (2025.05.30, 丁毅)}
+
+% 开始编辑文章
+\begin{document}
+\begin{center}\large
+    \vspace*{-0.8cm}
+    \noindent{\huge\bfseries《\ \ 线\ \ 性\ \ 电\ \ 路\ \ 实\ \ 验\ \ \ 》\ \ 实\ \ 验\ \ 报\ \ 告 }
+    \\\vspace{0.1cm}
+    \noindent{
+    {\bfseries 
+%
+%%%%%%%%%%%%%%%%%% 2. 修改实验名称 %%%%%%%%%%%%%%%%%%
+    实验名称：\uline{\hspace{1.5cm} 运放参数测量 \hspace{1.5cm}}
+%
+    }\hspace{0.4cm}
+    指导教师：\uline{\hspace{0.8cm}王东雷\ \ \ \  \ df4dac@sina.com     \hspace{0.8cm}}
+    }
+    \\\vspace{0.1cm}
+    \noindent
+    {
+    姓名：\uline{\,\,\,丁毅\,\,\,}\hspace{0.2cm}
+    学号：\uline{\,\,\,{ 2023K8009908031}\,\,\,}\hspace{0.2cm}
+    班级/专业：\uline{\,\,\,{2308/电子信息}\,\,\,}\hspace{0.2cm}
+    分组序号：\uline{\,\,\,{2-06}\,\,\,}
+    }
+    \\\vspace{0.1cm}
+    \noindent{
+%
+%%%%%%%%%%%%%%%%%% 3. 修改实验日期 %%%%%%%%%%%%%%%%%%
+    实验日期：\uline{\,\,{2025.05.30}\,\,}\hspace{0.2cm}
+%
+    实验地点：\uline{\,\,\,教学楼{ 607}\,\,\,}\hspace{0.2cm}
+    是否调课/补课：\uline{\hspace{0.26cm}否 \hspace{0.26cm}}\hspace{0.2cm}
+    成绩：\uline{\hspace{2cm}}
+    }
+\end{center}
+\vspace{-0.4cm}
+\noindent\rule{\textwidth}{0.075em}   % 分割线
+\vspace{-1.0cm}
+
+% 生成目录
+\setcounter{tocdepth}{3}  % 目录深度为 2（不显示 subsubsection）
+\noindent\tableofcontents\thispagestyle{fancy}   % 显示页码、页眉等
+
+% ------------------------ 文章信息区 ------------------------ %
+% ------------------------ 文章信息区 ------------------------ %
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 下面是正文内容 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{实验目的}
+
+\begin{enumerate}
+\item 理解运放主要参数的定义及对电路性能的影响，增强对运放应用电路的理解；
+\item 掌握运放主要参数的测量方法；
+\item 测量 LM741CN, LM358, LM318N, OP177 等典型集成运放的基本参数
+\end{enumerate}
+
+
+\section{实验仪器}
+
+\begin{enumerate}
+    \item 数字万用表： Unit UT61E (C190241394)
+    \item 数字示波器： RIGOL 200MSO2202A (DS2F192200361)
+    \item 信号发生器： GWINSTEK AFG-22225 (GER910370)
+    \item 数字直流电源： GWINSTEK GPD-3303S (GES813705) 
+    \item 多功能数字测量仪： 
+    % 这里是链接
+    \href{https://digilent.com/reference/test-and-measurement/analog-discovery/start
+    }{ % 这里是文字
+    Analog Discovery 1
+    } 
+    (D704387)
+    \item 运放基本参数测试板：% 这里是链接  
+    \href{https://yidingg.github.io/YiDingg/\#/ElectronicDesigns/Basic\%20Op\%20Amp\%20Measurement\%20Board\%20v2
+    }{ % 这里是文字
+    Basic Op Amp Measurement Board v2
+    }
+    \item 电压线性运算器：
+    % 这里是链接
+    \href{https://yidingg.github.io/YiDingg/#/ElectronicDesigns/Voltage\%20Linear\%20Operation\%20Board
+    }{ % 这里是文字
+    Voltage Linear Operaion Board
+    }
+    \item 其它：运算放大器 LM741CN, LM258P, LM318N, OP177 和 OPA197、面包板，电容、电阻、杜邦线等
+\end{enumerate}
+
+
+
+
+
+\newpage
+\section{实验内容及实验结果}
+
+\vspace*{-3mm}
+\begin{redbox}
+    若无特别说明，后续实验均默认示波器为 dc coupling 模式。
+\end{redbox}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/fig.png}
+    \caption{Using the basic op amp measurement board v2 and the linear operation board to measure the parameters of op amps}
+\end{figure}
+
+%\subsection{LM741CN}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=0.7\columnwidth]{LCE-08-运放测量/assets/simple-op-amp-measurements.pdf}
+    \caption{The reference measurement circuit from \textit{ADI: Simple Op Amp Measurements} written by James M. Bryant}
+    \label{fig: reference}
+\end{figure}
+
+Refer to % 这里是链接
+\href{https://yidingg.github.io/YiDingg/#/Electronics/Op%20Amp%20Measurement%20of%20LM741CN
+}{ % 这里是文字
+YiDingg's Website > Electronic Blogs > Op Amp Measurement of LM741CN
+}
+for the detailed record of the experiment, the following shows the summary of the measurement results.
+
+\subsection{DC Measurement of LM741CN}
+
+
+The DC measurement results of LM741CN are shown in Table \ref{DC measurement results of LM741CN}.
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{DC measurement results of LM741CN}
+    \label{DC measurement results of LM741CN}
+\begin{tabular}{cccccccccc}\toprule
+    Parameter & Symbol & Value \\
+    \midrule
+    Input offset voltage             & $V_{OS}$                &  - 0.41398 mV \\
+    Non-inverting input bias current & $I_{B+}$                &  59.6609 nA \\
+    Inverting input bias current     & $I_{B-}$                &  56.4179 nA \\
+    Input bias current               & $I_B$                   &  58.0394 nA \\
+    Input offset current             & $I_{OS}$                &  1.6215 nA \\
+    DC small-signal open-loop gain   & $A_{v,DC}$              &   \makecell{+ 9978.4 V/mV (140.0 dB) \\ - 11406.0 V/mV (141.1 dB)} \\
+    DC common-mode rejection ratio   & $\mathrm{CMRR}_{DC}$    &  \makecell{+ -3003.0 V/mV (129.6 dB) \\ - 2929.8 V/mV (129.3 dB)} \\
+    DC power supply rejection ratio  & $\mathrm{PSRR}_{DC}$    &  -245.5 V/mV (107.8 dB) \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{AC Gain Measurement of LM741CN}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/ac gain 1kHz.png}
+    \caption{Input-output waveform in ac gain measurement of LM741CN at the frequency of 1 kHz; CH1 (orange) input (AC INPUT), CH2 (blue) output (TP2)}
+\end{figure}
+
+
+Neglecting the effect of the overall dc negative feedback (R2 and R3 in Figure \ref{fig: reference}), the corrected ac gain calculation formula is given by:
+\begin{gather}
+\begin{cases}\displaystyle
+v_{out} = v_{TP2} = A_v v_{eff}
+\\\displaystyle
+v_{eff} = 0 - \frac{R_1}{R_1 + R_9 + \frac{1}{j \omega C_3}} \cdot  v_{acin} 
+\end{cases}
+\Longrightarrow 
+\boxed{
+A_{v} = \left(1 + \frac{R_9}{R_1} + \frac{1}{j 2 \pi f R_1 C_3}\right) \times \left(- \frac{v_{TP2}}{v_{acin}}\right)
+}\label{eq: ac gain}
+\end{gather}
+Note that the lowercase letters here denote the complex numbers with the magnitude and phase of the ac signals, i.e., $v_{TP2} = |v_{TP2}| e^{j \phi_{TP2}}$ and $v_{acin} = |v_{acin}| e^{j \phi_{acin}}$.
+
+The complete calculation formula, which includes the effect of overall dc negative feedback, can be found in % 这里是链接
+\href{https://yidingg.github.io/YiDingg/#/Electronics/Correction\%20of\%20the\%20AC\%20Gain\%20Equation\%20in\%20the\%20ADI\%20Op\%20Amp\%20Measurement\%20Methods
+}{ % 这里是文字
+YiDingg's Website > Electronic Blogs > The Correction of the AC Gain Equation in the ADI Op Amp Measurement Methods.
+}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/ac gain.pdf}
+    \caption{Frequency response measurement results of LM741CN}
+\end{figure}
+
+\subsection{AC PSRR and CMRR Measurement of LM741CN}
+
+As shown below, we use the voltage linear operation board to generate the power supply for CMRR and PSRR measurements:
+
+
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/CMRR VCC.png}
+    \caption{Generation of power supply for CMRR measurement; $V_{CC+} = 4 \ \mathrm{V} + 1 \ \mathrm{V} \times \sin \omega t,\ V_{CC-} = -4 \ \mathrm{V} + 1 \ \mathrm{V} \times \sin \omega t$}
+\end{figure}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/PSRR VCC.png}
+    \caption{Generation of power supply for PSS measurement; $V_{CC+} = 4 \ \mathrm{V} + 1 \ \mathrm{V} \times \sin \omega t,\ V_{CC-} = -4 \ \mathrm{V} - 1 \ \mathrm{V} \times \sin \omega t$}
+\end{figure}
+
+The corrected CMRR and PSRR calculation formulas are given by:
+\begin{gather}
+\begin{cases}
+\mathrm{CMRR}  = \frac{A_{DM-DM}}{A_{CM-DM}} = \frac{\frac{A_v \Delta V_{in,DM}}{ \Delta V_{in,DM}}}{\frac{A_v \Delta V_{OS}}{\Delta V_{CM}}} = \frac{\Delta V_{CM}}{\Delta V_{OS}}
+\\
+v_{W1} = v_{W2} \Longrightarrow \Delta V_{CM} =  v_{CM} = - v_{W1}
+\\
+\Delta V_{OS} = v_{OS} = \frac{v_{out}}{1 + \frac{R_8}{R_1} + \frac{1}{j\omega R_1 C_2}} = \frac{v_{TP2}}{101 + \frac{10^5}{j\omega}}
+\end{cases}
+\Longrightarrow 
+\boxed{
+\mathrm{CMRR} 
+    = \left(101 + \frac{1\times 10^5}{j\, 2 \pi f}\right) \times \left(- \frac{v_{W1}}{v_{TP2}}\right)
+}\label{eq: CMRR}
+\\ 
+\begin{cases}
+\mathrm{PSRR} = \frac{A_{DM-DM}}{A_{PS-DM}} = \frac{\frac{A_v \Delta V_{in,DM}}{ \Delta V_{in,DM}}}{\frac{A_v \Delta V_{OS}}{\Delta V_{S}}} = \frac{\Delta V_{S}}{\Delta V_{OS}}
+\\
+v_{W1} = v_{W2} \Longrightarrow \Delta V_{S} = v_{S} = 2 \,v_{W1}
+\\
+\Delta V_{OS} = v_{OS} = \frac{v_{TP2}}{101 + \frac{10^5}{j\omega}}
+\end{cases}
+\Longrightarrow 
+\boxed{
+\mathrm{PSRR} 
+    = \left(101 + \frac{1\times 10^5}{j \, 2\pi f}\right) \times \left(\frac{v_{W1}}{v_{TP2}}\right)\times 2
+}\label{eq: PSRR}
+\end{gather}
+Note that we used 10 kOhm for R8 and 100 Ohm for R1 hence the ratio is 101 instead of 100 here.
+
+%\begin{figure}[H]\centering
+%    %\includegraphics[width=\columnwidth]{}
+%    %\caption{Input-output waveform in ac PSRR measurement of LM741CN at the frequency of 1 kHz}
+%\end{figure}
+
+
+%\begin{figure}[H]\centering
+%    %\includegraphics[width=\columnwidth]{}
+%    \caption{Input-output waveform in ac CMRR measurement of LM741CN at the frequency of 1 kHz}
+%\end{figure}
+
+
+%\begin{figure}[H]\centering
+%    %\includegraphics[width=\columnwidth]{}
+%    \caption{AC power supply rejection ratio of LM741CN}
+%\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[height=170pt]{LCE-08-运放测量/assets/CMRR.pdf}
+    \caption{ac common-mode rejection ratio}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[height=170pt]{LCE-08-运放测量/assets/PSRR.pdf}
+    \caption{ac power supply rejection ratio}
+\end{subfigure}
+\caption{AC CMRR and PSRR measurement results of LM741CN}
+\end{figure}
+
+As can be seen from the above figure, the minimum measurable value of CMRR and PSRR is 40 dB and 46 dB, respectively. We'll discuss this phenomenon later.
+
+%\begin{figure}[H]\centering
+%    %\includegraphics[width=\columnwidth]{}
+%    \caption{AC common-mode rejection ratio of LM741CN}
+%\end{figure}
+
+\subsection{Slew Rate Measurement of LM741CN}
+
+In the slew rate and full power bandwidth measurements, the op amp is configured as a simple unity buffer, i.e., the output terminal is directly connected to the inverting input terminal, and the input signal is injected into the non-inverting input terminal.
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/SR+.png}
+    \caption{Rising slew rate waveform of LM741CN with 5 Vamp square wave input}
+\end{figure}
+
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/SR-.png}
+    \caption{Falling slew rate waveform of LM741CN with 5 Vamp square wave input}
+\end{figure}
+
+%\begin{figure}[H]\centering
+%    %\includegraphics[width=\columnwidth]{}
+%    \caption{Output amplitude of LM318N with nominal 10 Vamp output at the frequency of full power bandwidth}
+%\end{figure}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-08-运放测量/assets/FPBW.png}
+    \caption{Output amplitude of LM318N with nominal 10 Vamp output as a function of frequency}
+\end{figure}
+
+Note that our definition of FPBW (full-power bandwidth) here is the frequency where the output amplitude drops by 1 \% of its nominal value, instead of the definition under THD, i.e., the frequency where the THD of output signal reaches 1 \%. The SR and FPBW results can be summarized in Table \ref{Slew rate measurement results of LM741CN}.
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{Slew rate measurement results of LM741CN}
+    \label{Slew rate measurement results of LM741CN}
+\begin{tabular}{cccccccccc}\toprule
+    Parameter & Symbol & Value \\
+    \midrule
+    Rising slew rate                 & $\mathrm{SR}_+$         &  + 0.7146 V/us \\
+    Falling slew rate                & $\mathrm{SR}_-$         &  - 0.6099 V/us \\
+    Full power bandwidth            & $\mathrm{FPBW}$          &  22.6488 kHz @ 5 Vamp \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Summary of Results}
+
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{DC measurement results of LM741CN}
+\begin{tabular}{cccccccccc}\toprule
+    Parameter & Symbol & Value \\
+    \midrule
+    Input offset voltage             & $V_{OS}$                &  - 0.41398 mV \\
+    Non-inverting input bias current & $I_{B+}$                &  59.6609 nA \\
+    Inverting input bias current     & $I_{B-}$                &  56.4179 nA \\
+    Input bias current               & $I_B$                   &  58.0394 nA \\
+    Input offset current             & $I_{OS}$                &  1.6215 nA \\
+    DC small-signal open-loop gain   & $A_{v,DC}$              &   \makecell{+ 9978.4 V/mV (140.0 dB) \\ - 11406.0 V/mV (141.1 dB)} \\
+    DC common-mode rejection ratio   & $\mathrm{CMRR}_{DC}$    &  \makecell{-3003.0 V/mV (129.6 dB) \\ - 2929.8 V/mV (129.3 dB)} \\
+    DC power supply rejection ratio  & $\mathrm{PSRR}_{DC}$    &  -245.5 V/mV (107.8 dB) \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{AC measurement results of LM741CN}
+\begin{tabular}{cccccccccc}
+    \toprule
+    AC Parameter & Symbol & Value \\
+    \midrule
+    %phase margin                     & $\mathrm{PM}$           &   \\
+    Gain-bandwidth product           & $\mathrm{GBW}$                   & 0.9319 MHz \\
+    AC open-loop gain @ 1 kHz        & $A_{v,\mathrm{1kHz}}$            & 59.1 dB \\
+    AC open-loop gain @ 10 kHz       & $A_{v,\mathrm{10kHz}}$           & 39.4 dB \\
+    AC open-loop gain @ 100 kHz      & $A_{v,\mathrm{100kHz}}$          & 19.4 dB \\
+    AC common-mode rejection ratio   & $\mathrm{CMRR}_{\mathrm{100Hz}}$ & 75.4 dB \\
+    AC common-mode rejection ratio   & $\mathrm{CMRR}_{\mathrm{1kHz}}$  & 56.1 dB \\
+    %AC common-mode rejection ratio   & $\mathrm{CMRR}_{\mathrm{10kHz}}$ &  \\
+    AC power supply rejection ratio  & $\mathrm{PSRR}_{\mathrm{100Hz}}$ & 81.7 dB \\
+    AC power supply rejection ratio  & $\mathrm{PSRR}_{\mathrm{1kHz}}$  & 62.4 dB \\
+    %AC power supply rejection ratio  & $\mathrm{PSRR}_{\mathrm{10kHz}}$ &  \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{Slew rate measurement results of LM741CN}
+\begin{tabular}{cccccccccc}\toprule
+    Parameter & Symbol & Value \\
+    \midrule
+    Rising slew rate                 & $\mathrm{SR}_+$         &  + 0.7146 V/us \\
+    Falling slew rate                & $\mathrm{SR}_-$         &  - 0.6099 V/us \\
+    Full power bandwidth            & $\mathrm{FPBW}$          &  22.6488 kHz @ 5 Vamp \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+\section{思考题}
+
+% \subsection*{4.1 \ \ }
+% \subsection*{4.2 \ \ }
+% \subsection*{4.3 \ \ }
+% \subsection*{4.4 \ \ }
+% \subsection*{4.5 \ \ }
+% \subsection*{4.6 \ \ }
+
+\subsection{实验中有无遇到异常现象，如何解决？}
+
+\subsubsection*{4.1.1\ \ \ TP2 电压存在漂移}
+
+测量输入失调电压和输入偏置电流时，输出节点 TP1 会以很慢的速率在一定范围内漂移 (将记录时间拉长至五分钟左右可轻易观察到)，波动幅度大约为平均值的 $\pm 10 \%$，导致一定的测量误差。这是 ADI basic op amp measurement method 中的系统误差，可以通过调整辅助运放和全局反馈电阻以提高反馈稳定性，进而改善此确定，但是无法完全避免（因为失调电压本身就会漂移）。
+
+
+
+\subsubsection*{4.1.2\ \ \ DC Gain 测量结果为负值}
+
+这是运放内部的“热反馈”造成的，具体原理见论文 % 这里是链接
+\href{https://ieeexplore.ieee.org/document/1050524
+}{ % 这里是文字
+The monolithic op amp: a tutorial study
+}，全引是：
+\vspace*{-3mm}
+\begin{graybox}
+J. E. Solomon, ``The monolithic op amp: a tutorial study'', in IEEE Journal of Solid-State Circuits, vol. 9, no. 6, pp. 314-332, Dec. 1974, doi: 10.1109/JSSC.1974.1050524.
+\end{graybox}
+
+\subsubsection*{4.1.3\ \ \ AC Gain 低频测量结果明显不合理}
+
+这个问题我们在很久以前就发现了，但至今没有找到合理的解释。我对 AC Gain 的测量电路也作过完整、严谨的推导，但是最终却得到“不论辅助运放的性能如何，公式 (\ref{eq: ac gain}) 在很宽的频率范围内都符合得很好”的结论，这与实验结果明显不符。不过，由于热反馈会影响 DC Gain 的测量，那么我们有理由猜测低频增益数据异常可能也是热反馈造成的，毕竟低频更接近 DC 。具体原因为何，还有待进一步的研究。
+
+\subsubsection*{4.1.4\ \ \ AC CMRR 和 AC PSRR 存在“渐近线”}
+
+以共模抑制比为例，其渐近线出现在 CMRR = 40.0864 dB = 101 V/V 处，这是因为当共模抑制比足够低时，运放的输出端 (TP2) 完全 ``follow'' 了输入共模的变化量，而我们的输入共模只有 1 Vamp, 因此输出端的变化量也不会超过 1 Vamp, 此时公式 (\ref{eq: CMRR}) 退化为：
+
+\begin{gather}
+\mathrm{CMRR} = \left(1 + \frac{R_8}{R_1} + \frac{1\times 10^5}{j 2\pi f}\right)\times \left(-\frac{v_{W1}}{v_{TP2}}\right) = 101 \times (-1) \ \mathrm{V/V} = -101 \ \mathrm{V/V} 
+\end{gather}
+也就是说，电阻 $R_8$、$R_1$ 的值，以及输入共模幅度共同限制了 CMRR 的测量范围。因此，减小比值 $\frac{R_8}{R_1}$，或者增大输入共模幅度 (也即增大 VCC 的交流幅度) 便可解决这个问题 (扩宽测量范围)。
+
+同理, PSRR 的渐近线出现在 PSRR = 46.1070 dB = 202 V/V 处，原因同上。
+
+
+\subsection{运放还有哪些重要参数？}
+
+\noindent 除本实验所涉及的一些基本参数外，运放还有一些重要参数，如：
+\begin{enumerate}
+\item 小信号输出阻抗 (简称输出阻抗)
+\item 小信号差模输入阻抗 (简称输入阻抗)
+\item 大信号共模输入阻抗 (简称共模输入阻抗)
+\item 输入输出寄生电容
+\item 建立时间 (settling time)
+\item 等效输入电压噪声谱密度 $\frac{\mathrm{d} \overline{V_n^2} }{\mathrm{d} f }$
+\item 等效输入电流噪声谱密度 $\frac{\mathrm{d} \overline{I_n^2} }{\mathrm{d} f }$
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+% 附录
+\section*{附录 A\hspace*{20pt} 原始数据记录表}
+\addcontentsline{toc}{section}{附录 A\hspace*{6pt} 原始数据记录表} 
+\thispagestyle{fancy} 
+
+\noindent \href{https://yidingg.github.io/YiDingg/#/Electronics/Op\%20Amp\%20Measurement\%20of\%20LM741CN
+}{ % 这里是文字
+YiDingg's Website > Electronic Blogs > Op Amp Measurement of LM741CN
+\\ 
+\color{gray}\small https://yidingg.github.io/YiDingg/\#/Electronics/Op\%20Amp\%20Measurement\%20of\%20LM741CN
+}
+
+% 附录
+\section*{附录B \hspace*{20pt} Matlab Codes}
+\addcontentsline{toc}{section}{附录 B \hspace*{6pt} Matlab Codes} 
+\thispagestyle{fancy} 
+\lstinputlisting{D:/a_RemoteRepo/GH.MatlabCodes/本科课程代码/Linear Circuit Experiment/LCE_08.m}
+
+% 附录
+\newpage
+\vspace*{\fill}
+\begin{center}\Huge{\bfseries 
+    附录 C\hspace*{20pt} 实验预习报告
+}\end{center}\addcontentsline{toc}{section}{附录 C\hspace*{6pt} 实验预习报告} 
+\vspace*{\fill}
+\thispagestyle{fancy} 
+\includepdf[pages={-}]{LCE-08-运放测量/preview/LCE-08 (preview report).pdf}
+
+
+
+
+\end{document}
+
+% VScode 常用快捷键：
+
+% F2:                       变量重命名
+% Ctrl + Enter:             行中换行
+% Alt + up/down:            上下移行
+% 鼠标中键 + 移动:           快速多光标
+% Shift + Alt + up/down:    上下复制
+% Ctrl + left/right:        左右跳单词
+% Ctrl + Backspace/Delete:  左右删单词    
+% Shift + Delete:           删除此行
+% Ctrl + J:                 打开 VScode 下栏(输出栏)
+% Ctrl + B:                 打开 VScode 左栏(目录栏)
+% Ctrl + `:                 打开 VScode 终端栏
+% Ctrl + 0:                 定位文件
+% Ctrl + Tab:               切换已打开的文件(切标签)
+% Ctrl + Shift + P:         打开全局命令(设置)
+
+% Latex 常用快捷键：
+
+% Ctrl + Alt + J:           由代码定位到PDF
+
+

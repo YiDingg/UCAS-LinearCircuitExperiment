@@ -12,3 +12,5 @@ Midband
 LTspice
 Wien-Bridge
 capacitances
+mV
+nA

@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}实验目的}{1}{section.1}%
+\contentsline {section}{\numberline {2}实验仪器}{1}{section.2}%
+\contentsline {section}{\numberline {3}实验原理}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}比较器与运放的差异}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}由滞回比较器构成带有滞回的窗口比较器}{2}{subsection.3.2}%
+\contentsline {section}{\numberline {4}实验内容及实验结果}{2}{section.4}%
+\contentsline {subsection}{\numberline {4.1}搭建并测量无滞回比较器}{2}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}搭建并测量有滞回比较器}{5}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}搭建并测量窗口比较器}{6}{subsection.4.3}%
+\contentsline {section}{\numberline {5}思考题}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}比较器使用上有哪些注意事项？}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}运放做比较器使用，有什么优缺点？}{7}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}实验中是否遇到异常现象，如何解决？}{7}{subsection.5.3}%
+\contentsline {section}{\numberline {6}开关电源设计预告}{7}{section.6}%
+\contentsline {section}{附录 A\hspace *{6pt} 原始数据记录表}{7}{figure.caption.13}%
+\contentsline {section}{附录 B\hspace *{6pt} 实验预习报告}{8}{figure.caption.14}%

@@ -14,3 +14,4 @@ Wien-Bridge
 capacitances
 mV
 nA
+Tektronix

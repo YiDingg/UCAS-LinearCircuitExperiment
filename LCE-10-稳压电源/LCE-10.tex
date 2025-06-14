@@ -1,0 +1,568 @@
+% 若编译失败，且生成 .synctex(busy) 辅助文件，可能有两个原因：
+% 1. 需要插入的图片不存在：Ctrl + F 搜索 'figure' 将这些代码注释/删除掉即可
+% 2. 路径/文件名含中文或空格：更改路径/文件名即可
+
+% --------------------- 文章宏包及相关设置 --------------------- %
+% >> ------------------ 文章宏包及相关设置 ------------------ << %
+% 设定文章类型与编码格式
+\documentclass[UTF8]{article}		
+\input{../.config/config_for_LinearCircuitExperiment.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 仅需修改页眉、实验名称、实验日期
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%% 1. 修改页眉内容 %%%%%%%%%%%%%%%%%%
+\rhead{LCE-10 稳压电源 (2025.06.13, 丁毅)}
+
+% 开始编辑文章
+\begin{document}
+\begin{center}\large
+    \vspace*{-0.8cm}
+    \noindent{\huge\bfseries《\ \ 线\ \ 性\ \ 电\ \ 路\ \ 实\ \ 验\ \ \ 》\ \ 实\ \ 验\ \ 报\ \ 告 }
+    \\\vspace{0.1cm}
+    \noindent{
+    {\bfseries 
+%
+%%%%%%%%%%%%%%%%%% 2. 修改实验名称 %%%%%%%%%%%%%%%%%%
+    实验名称：\uline{\hspace{2.0cm} 稳压电源 \hspace{2.0cm}}
+%
+    }\hspace{0.4cm}
+    指导教师：\uline{\hspace{0.8cm}王东雷\ \ \ \  \ df4dac@sina.com     \hspace{0.8cm}}
+    }
+    \\\vspace{0.1cm}
+    \noindent
+    {
+    姓名：\uline{\,\,\,丁毅\,\,\,}\hspace{0.2cm}
+    学号：\uline{\,\,\,{ 2023K8009908031}\,\,\,}\hspace{0.2cm}
+    班级/专业：\uline{\,\,\,{2308/电子信息}\,\,\,}\hspace{0.2cm}
+    分组序号：\uline{\,\,\,{2-06}\,\,\,}
+    }
+    \\\vspace{0.1cm}
+    \noindent{
+%
+%%%%%%%%%%%%%%%%%% 3. 修改实验日期 %%%%%%%%%%%%%%%%%%
+    实验日期：\uline{\,\,{2025.06.13}\,\,}\hspace{0.2cm}
+%
+    实验地点：\uline{\,\,\,教学楼{ 607}\,\,\,}\hspace{0.2cm}
+    是否调课/补课：\uline{\hspace{0.26cm}否 \hspace{0.26cm}}\hspace{0.2cm}
+    成绩：\uline{\hspace{2cm}}
+    }
+\end{center}
+\vspace{-0.4cm}
+\noindent\rule{\textwidth}{0.075em}   % 分割线
+\vspace{-1.0cm}
+
+% 生成目录
+\setcounter{tocdepth}{3}  % 目录深度为 2 (不显示 subsubsection) 
+\noindent\tableofcontents\thispagestyle{fancy}   % 显示页码、页眉等
+
+% ------------------------ 文章信息区 ------------------------ %
+% ------------------------ 文章信息区 ------------------------ %
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 下面是正文内容 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{实验目的}
+
+\vspace*{-3mm}
+\begin{redbox}
+    注：在本次实验，我们用一个多功能模块化 DC-DC 开关电源 (\href{https://yidingg.github.io/YiDingg/#/ElectronicDesigns/DC-DC\%20Converter\%20Modules
+    }{ % 这里是文字
+    All-In-One DC-DC Converter Modules
+    }) 的设计与测试作为替代，而不进行课件上的``稳压电源''实验。
+    % 这里是链接
+\end{redbox}
+
+
+\section{实验仪器}
+
+\begin{enumerate}
+    \item 电流探头：  Tektronix TCP3112A (C012006)
+    \item 数字万用表： UNI-T UT61E (C190241394)
+    \item 信号发生器： GWINSTEK AFG-22225 (GER910370)
+    \item 电子负载仪： ITECH IT8512B (800025051787070024)
+    \item 数字示波器： RIGOL 200MSO2202A (DS2F192200361)
+    \item 数字直流电源： GWINSTEK GPD-3303S (GES813705) 
+    \item 电流电压转换器： Tektronix TCPA300 (B017520)
+    \item 多功能数字测量仪： 
+    % 这里是链接
+    \href{https://digilent.com/reference/test-and-measurement/analog-discovery/start
+    }{ % 这里是文字
+    Analog Discovery 1
+    } 
+    (D704387)
+    \item 多功能模块化 DC-DC 开关电源：
+    % 这里是链接
+    \href{https://yidingg.github.io/YiDingg/#/ElectronicDesigns/DC-DC\%20Converter\%20Modules
+    }{ % 这里是文字
+    All-In-One DC-DC Converter Modules
+    }
+\end{enumerate}
+
+
+\section{实验内容及实验结果}
+
+\vspace*{-3mm}
+\begin{redbox}
+    若无特别说明，后续实验均默认示波器为 dc coupling 模式。
+\end{redbox}
+
+\subsection{All-In-One DC-DC Converter Modules}
+
+本次设计的子模块包含了多种 DC-DC 芯片，下面是这些芯片的相关参数：
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{The Chips Used in the All-In-One DC-DC Converter Modules}
+    \label{tab: DC-DC Converter Modules}
+\begin{tabular}{cccccccccc}\toprule
+    Num & Modules & Type & $(I_{out})_{\max}$ & Input Range & Output Range \\
+    \midrule
+    1 & TPS63070 RNMR & buck-boost & 2 A & 0.8 V\textasciitilde{}16 V  & 2.0 V  \textasciitilde{}9 V \\
+    2 & TPS563201 DDCR & buck & 3 A & 4.5 V\textasciitilde{}17 V       & 0.768 V\textasciitilde{}7 V \\
+    3 & SX1308 & boost & 1 A / 4 A & 2 V\textasciitilde{}24 V             & 4.0 V  \textasciitilde{}28 V \\
+    4 & TPS5430 DDAR & buck & 3 A & 5.5 V\textasciitilde{}36 V         & 1.3 V  \textasciitilde{}32 V \\
+    5 & TPS54331 DR & buck & 3 A & 3.5 V\textasciitilde{}28 V          & 0.8 V  \textasciitilde{}25 V \\
+    6 & RY8310 & buck & 1 A / 2 A & 4.5 V\textasciitilde{}30 V            & 0.8 V  \textasciitilde{}24.6 V \\
+    7 & MT2492 & buck & 2 A / 3 A & 4.5 V\textasciitilde{}16 V            & 0.6 V  \textasciitilde{}14.7 V \\
+    8 & MT3608 & boost & 1 A / 4 A & 2 V\textasciitilde{}24 V             & 4.0 V  \textasciitilde{}28 V \\
+    9 & MC34063 ADR2G & multi & 1 A / 1.5 A & 3.0 V\textasciitilde{}40 V  & 1.25 V \textasciitilde{}40 V \\
+    \bottomrule
+\end{tabular}
+\end{table}
+\noindent 其中，``multi'' 表示该芯片可以配置为多种拓扑结构 (buck, boost, inverting buck 等)；最大输出电流一栏如果有两个值，则前者表示芯片的最大输出电流，后者表示开关管可承受的最大峰值电流。
+
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-45-48_DC-DC Converter Modules.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-45-53_DC-DC Converter Modules.png}
+\end{subfigure}
+\caption{3D rendering picture of the All-In-One DC-DC Converter Modules}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-46-03_DC-DC Converter Modules.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-46-07_DC-DC Converter Modules.png}
+\end{subfigure}
+\caption{2D rendering picture of the All-In-One DC-DC Converter Modules}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-50-41_DC-DC Converter Modules.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-50-54_DC-DC Converter Modules.png}
+\end{subfigure}
+\caption{Practical picture of the All-In-One DC-DC Converter Modules}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-51-44_DC-DC Converter Modules.png}
+    \caption{using four modules at the same time}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=220pt]{LCE-10-稳压电源/assets/fig/2025-03-08-13-51-57_DC-DC Converter Modules.png}
+    \caption{using ohter four modules at the same time}
+\end{subfigure}
+\caption{Demo of the All-In-One DC-DC Converter Modules}
+\end{figure}
+
+\vspace*{-3mm}
+\begin{redbox}
+    注：由于模块数量较多，在后续的子实验中，我们只测量众多模块中的两个代表模块： TPS54331 (buck) 和 SX1308 (boost)。另外，若无特别说明，模块的输入均采用某品牌的 5 V @ 10 A 开关电源，空载输出电压设置为大约 5.2 V。
+\end{redbox}
+
+
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.44\columnwidth}\centering
+    \includegraphics[height=110pt]{LCE-10-稳压电源/assets/SCH_Schematic5_1-P1_2025-06-14.pdf}
+    \caption{TPS54331 (buck) module}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.55\columnwidth}\centering
+    \includegraphics[height=110pt]{LCE-10-稳压电源/assets/SCH_Schematic3_1-P1_2025-06-14.pdf}
+    \caption{SX1308 (boost) module}
+\end{subfigure}
+\caption{Circuit schematic of the TPS54331 (buck) and SX1308 (boost) modules}
+\end{figure}
+
+\subsection{Switching Waveform and Output Ripple}
+
+分别在轻载和中载条件下，测量模块的开关波形和输出纹波。开关波形用 dc coupling (CH1) 进行测量，输出纹波用 ac coupling (CH2) 进行测量，并且输出纹波同步利用 FFT 窗口计算频谱信息。
+
+
+设置 TPS54331 在空载下的输出电压为 4.07 V, 利用电子负载仪改变负载电阻，得到波形测试结果如下：
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/TP 轻 1.png}
+    \caption{switching waveform at light load}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/TP 轻 2.png}
+    \caption{output ripple at light load}
+\end{subfigure}
+\caption{TPS54331 (buck) switching waveform and output ripple at light load (nominal 4.07 V output, 80 $\Omega$ load)}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[height=120pt]{LCE-10-稳压电源/assets/switch/TP 中 1.png}
+    \caption{switching waveform at medium load}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[height=120pt]{LCE-10-稳压电源/assets/switch/TP 中 2.png}
+    \caption{output ripple at medium load}
+\end{subfigure}
+\caption{TPS54331 (buck) switching waveform and output ripple at medium load (nominal  4.07 V output, 8 $\Omega$ load)}
+\end{figure}
+
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/TP 重 1.png}
+    \caption{switching waveform at heavy load}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/TP 重 2.png}
+    \caption{output ripple at heavy load}
+\end{subfigure}
+\caption{TPS54331 (buck) switching waveform and output ripple at heavy load (nominal 4.07 V output, 2 $\Omega$ load)}
+\end{figure}
+
+同理，设置 SX1308 在空载下的输出电压为 10.03 V, 改变负载电阻，得到测试结果如下：
+
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/SX 轻 1.png}
+    \caption{switching waveform at light load} 
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/SX 轻 2.png}
+    \caption{output ripple at light load}
+\end{subfigure}
+\caption{SX1308 (boost) switching waveform and output ripple at light load (nominal 10.03 V output, 100 $\Omega$ load)}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[height=120pt]{LCE-10-稳压电源/assets/switch/SX 中 1.png}
+    \caption{switching waveform at medium load}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[height=120pt]{LCE-10-稳压电源/assets/switch/SX 中 2.png}
+    \caption{output ripple at medium load}
+\end{subfigure}
+\caption{SX1308 (boost) switching waveform and output ripple at medium load (nominal 10.03 V output, 10 $\Omega$ load)}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/SX 重 1.png}
+    \caption{switching waveform at heavy load}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=\linewidth]{LCE-10-稳压电源/assets/switch/SX 重 2.png}
+    \caption{output ripple at heavy load}
+\end{subfigure}
+\caption{SX1308 (boost) switching waveform and output ripple at heavy load (nominal 10.03 V output, 20 $\Omega$ load)}
+\end{figure}
+
+
+%\newpage
+\subsection{Output Efficiency}
+
+
+利用电流探头测量输入电流 (电流探头设置为 1 A/V) ，用万用表测量输入电压，从负载仪上读出输出的电压电流，得到效率测试结果如下：
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{Output efficiency of TPS54331 (buck) at different load conditions}
+\begin{tabular}{cccccccccc}\toprule
+    Test condition & Input & Output & Efficiency \\
+    \midrule
+    Light load  & 5.224 V @ 0.046 A & 4.05 V @ 0.050 A & 84.27 \% \\
+    Medium load & 5.190 V @ 0.389 A & 3.81 V @ 0.473 A & 89.26 \% \\
+    Heavy load  & 5.092 V @ 1.378 A & 3.15 V @ 1.578 A & 70.84\% \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{Output efficiency of SX1308 (boost) at different load conditions}
+\begin{tabular}{cccccccccc}\toprule
+    Test condition & Input & Output & Efficiency \\
+    \midrule
+    Light load  & 5.217 V @ 0.220 A & 10.12 V @ 0.049 A & 43.20 \% \\
+    Medium load & 5.122 V @ 1.176 A & 9.87 V @ 0.492 A & 80.62 \% \\
+    Heavy load  & 4.990 V @ 2.410 A & 9.68 V @ 0.967 A & 77.84 \% \\
+    \bottomrule
+\end{tabular}
+\end{table}
+
+\noindent 注：模块含有两个 LED 输出指示灯 (module 和 collection board 各一个)，消耗约 2 mA 的电流，因此轻载测试时具有一定的系统误差。
+
+
+\subsection{Line Regulation}
+
+在中载条件下 (输出约 500 mA), 先设定好输出电压，然后改变模块输入电压，用万用表测量输出电压的变化情况。测量结果如下：
+
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{Line regulation of TPS54331 (buck) at different input voltages}
+\resizebox{\linewidth}{!}{   % 设置宽度为 \linewidth 等比例缩放
+\begin{tabular}{cccccccccc}\toprule
+    Module & Test Condition & Input @ Output & Input @ Output & Line Regulation \\
+    \midrule
+    TPS54331 (buck) & nominal output 4 V @ 8 Ohm & 4.887 V @ 3.886 V & 6.317 V @ 3.893 V & + 4.90 mV/V \\
+    SX1308 (boost) & nominal output 10 V @ 20 Ohm & 4.810 V @ 10.099 V & 6.261 V @ 10.093 V & - 4.14 mV/V \\
+    \bottomrule
+\end{tabular}
+}\end{table}
+
+\subsection{Load Regulation}
+
+利用 \textbf{3.3\ \ Output Efficiency} 一节中所得的数据，计算负载调整率和电源内阻，结果如下：
+
+\begin{table}[H]\centering
+    %\renewcommand{\arraystretch}{1.5} % 调整行间距为 1.5 倍
+    %\setlength{\tabcolsep}{1.5mm} % 调整列间距
+    \caption{Load regulation of TPS54331 (buck) and SX1308 (boost) at different load conditions}
+\begin{tabular}{cccccccc}\hline
+    Module & From light load to medium load & From medium load to heavy load \\
+    \hline
+    TPS54331 (buck) & -5.93 \% @ 0.57 Ohm & -17.32 \% @ 0.60 Ohm \\
+    SX1308 (boost)  & -2.47 \% @ 0.56 Ohm & -1.93 \%  @ 0.40 Ohm \\
+    \hline
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Transient Response}
+
+利用电子负载仪，设置负载电流从 50 mA 阶跃到 500 mA 或 1000 mA (上升速率 1.6 A/us)，测量输出电压的瞬态响应。设置示波器为 dc coupling, CH1 为输出电压, CH2 为输出电流，测量结果如下：
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-10-稳压电源/assets/tran/TP.png}
+    \caption{TPS54331 (buck) transient response at 50 mA to 500 mA load step; CH1 (orange) voltage, CH2 (blue) current}
+\end{figure}
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-10-稳压电源/assets/tran/TP 2.png}
+    \caption{TPS54331 (buck) transient response at 50 mA to 1000 mA load step; CH1 (orange) voltage, CH2 (blue) current}
+\end{figure}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=\columnwidth]{LCE-10-稳压电源/assets/tran/SX.png}
+    \caption{SX1308 (boost) transient response at 50 mA to 500 mA load step; CH1 (orange) voltage, CH2 (blue) current}
+    \label{fig: tran SX1308}
+\end{figure}
+
+
+
+\subsection{Comparison With the Data Sheet}
+
+在这一小节，我们将得到的输出效率和负载调整率数据作成图像，并与芯片的数据手册进行对比。
+
+\begin{figure}[H]\centering
+    \includegraphics[width=0.9\columnwidth]{LCE-10-稳压电源/assets/2025-06-13_21-25-21.pdf}
+    \caption{Output efficiency and load regulation of TPS54331 (buck) and SX1308 (boost)}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=160pt]{LCE-10-稳压电源/assets/compare/SX 1.png}
+    \caption{output efficiency}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=160pt]{LCE-10-稳压电源/assets/compare/SX 2.png}
+    \caption{load regulation}
+\end{subfigure}
+\caption{Output efficiency and load regulation of SX1308 (boost) from the data sheet}
+\end{figure}
+
+\begin{figure}[H]\centering
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=160pt]{LCE-10-稳压电源/assets/compare/TP 1.png}
+    \caption{output efficiency}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.5\columnwidth}\centering
+    \includegraphics[width=160pt]{LCE-10-稳压电源/assets/compare/TP 2.png}
+    \caption{load regulation}
+\end{subfigure}
+\caption{Output efficiency and load regulation of TPS54331 (buck) from the data sheet}
+\end{figure}
+
+
+\section{思考题}
+
+\subsection{本次设计最大的亮点是什么？}
+
+我们的设计有两个最大亮点，其一是``模块化设计''，可以随意更换任意类型的 dc-dc converter, 也可以多个模块一起使用；其二是`` buck 模块接口兼容 inverting buck 功能''，也就是对任意一个 buck 模块，都可以通过``向上平移一格后插入''的方式，配置为 inverting buck 功能，从而\textbf{得到负电压输出}。``利用 buck 实现负电压输出''的想法已经在多个模块上得到验证，包括 TPS563201, TPS5430, TPS54331 和 RY8310 等，具体原理见我们之前写的知乎文章 % 这里是链接
+\href{https://zhuanlan.zhihu.com/p/26079732083
+}{ % 这里是文字
+Using Buck Topology as an Inverting Converter (Buck-Boost)
+}.
+
+\subsection{在 SX1308 的瞬态响应 (Figure \ref{fig: tran SX1308}) 中，输出电压曲线 (CH1) 周边的橙色背景是什么？}
+
+在 SX1308 的瞬态响应 (Figure \ref{fig: tran SX1308}) 中，输出电压曲线 (CH1) 上下的橙色背景表示输出电压的 ``noise'', 反映了输出电压的纹波和噪声大小。从图中可以看出，在输出电流为 50 mA 左右时 (轻载)，输出电压的纹波和噪声较小；而在输出电流为 500 mA 左右时 (中载)，输出电压的纹波和噪声明显增大。这是因为 SX1308 的输出在 1200 mA 左右便会达到“饱和”，无法正常工作。因此，相比最大输出电流为 3 A 左右的 TPS54331 (buck)，SX1308 (boost) 在 500 mA 的纹波和噪声更大，橙色背景也更明显。
+
+
+\subsection{在负载调整率/输出电阻的测量中，我们得到了约 0.5 Ohm 的输出电阻，这个结果是真实的吗，存在哪些系统误差？}
+
+作为一个存在稳定负反馈的开关电源系统，输出电压 (直流量) 随负载的变化应该可以忽略不计，也就是电源内阻接近于零。然而，在实际测量中，我们得到了约 0.5 Ohm 的输出电阻，这其中包含了多种系统误差：
+\begin{enumerate}
+\item 输出线 (杜邦线) 的电阻：输出电压和电流测量的示意图如 Figure \ref{fig: output measurement schematic}，假设接触电阻可以忽略不计且万用表内阻无穷大，显然，输出所用杜邦线的内阻涵盖在我们的测量结果中。于是用万用表测量得到杜邦线内阻 $R_1 + R_2 = 0.18 \ \mathrm{Ohm}$，减去此部分后，电源内阻明显减小；
+\item 从模块到总板、再从总板到输出杜邦线的过程，经过了两次排母转接，具有一定的接触电阻；
+\item 杜邦线连接电子负载，以及万用表的连接也会引入接触电阻。
+\end{enumerate}
+
+\begin{figure}[H]\centering
+    \includegraphics[width=0.65\columnwidth]{LCE-10-稳压电源/assets/image.png}
+    \caption{Output voltage and current measurement schematic}
+    \label{fig: output measurement schematic}
+\end{figure}
+
+
+
+
+\subsection{手机充电器为开关电源，存在较强的EMI，充电时为何不影响手机的使用？}
+
+这主要得益于多方面的工程设计优化。正规充电器内部会采用高效的滤波电路，如共模电感、 X/Y 电容等，用于抑制高频噪声的传导和辐射。并且，关键元件 (如变压器和开关管) 一般配备了金属屏蔽层以进一步减少电磁泄漏。另外，充电器的开关频率通常设计在几百 kHz，远低于手机通信频段 (如 4G/5G 和 WiFi 的 GHz 级)，因此不会直接干扰无线信号。  
+
+在手机端，电源管理芯片 (PMIC) 会对输入的电流进行二次滤波，消除残留的噪声。主板上的敏感电路 (如射频模块) 通常会被金属屏蔽罩覆盖，防止外部电磁干扰影响通信质量。数据传输部分 (如 USB 接口) 也会采用差分信号设计，增强抗干扰能力。充电线缆的质量也很关键，优质数据线会采用屏蔽层或双绞结构，减少电磁辐射。  
+
+最后，正规充电器必须通过严格的电磁兼容性 (EMC) 认证 (如 FCC、CE) ，确保其 EMI 水平在安全范围内。手机厂商也会在充电状态下测试通信性能，确保充电过程不会导致信号衰减或功能异常。所以，尽管开关电源理论上存在 EMI 问题，但通过硬件设计、滤波技术和标准规范的综合控制，最终用户几乎不会感知到充电对手机使用的干扰。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+% 附录
+\section*{附录 A\hspace*{20pt} 原始数据记录表}
+\addcontentsline{toc}{section}{附录 A\hspace*{6pt} 原始数据记录表} 
+\thispagestyle{fancy} 
+
+\noindent \href{https://yidingg.github.io/YiDingg/#/Electronics/Test\%20Experiment\%20of\%20The\%20DC-DC\%20Converter\%20Modules
+}{ % 这里是文字
+YiDingg's Website > Electronic Blogs > Test Experiment of The DC-DC Converter Modules
+\\ 
+\color{gray}\small https://yidingg.github.io/YiDingg/\#/Electronics/Test\%20Experiment\%20of\%20The\%20DC-DC\%20Converter\%20Modules
+}
+
+
+\section*{附录 B \hspace*{20pt} 实验预习报告}
+\addcontentsline{toc}{section}{附录 B \hspace*{6pt} 实验预习报告} 
+\thispagestyle{fancy} 
+\begin{figure}[H]\centering
+    \vspace*{-6mm}
+    \includegraphics[width=\columnwidth]{LCE-10-稳压电源/assets/LCE-10 (preview report).pdf}
+\end{figure}
+
+% 附录
+\section*{附录 C \hspace*{20pt} Matlab Codes}
+\addcontentsline{toc}{section}{附录 C \hspace*{6pt} Matlab Codes} 
+\thispagestyle{fancy} 
+\lstinputlisting{D:/a_RemoteRepo/GH.MatlabCodes/本科课程代码/Linear Circuit Experiment/LCE_10.m}
+
+
+% 附录
+%\newpage
+%\vspace*{\fill}\begin{center}\Huge{\bfseries 
+%    附录 C\hspace*{20pt} 实验预习报告
+%}\end{center}\addcontentsline{toc}{section}{附录 C\hspace*{6pt} 实验预习报告} 
+%\vspace*{\fill}
+%\thispagestyle{fancy} 
+
+
+\end{document}
+
+% VScode 常用快捷键：
+
+% F2:                       变量重命名
+% Ctrl + Enter:             行中换行
+% Alt + up/down:            上下移行
+% 鼠标中键 + 移动:           快速多光标
+% Shift + Alt + up/down:    上下复制
+% Ctrl + left/right:        左右跳单词
+% Ctrl + Backspace/Delete:  左右删单词    
+% Shift + Delete:           删除此行
+% Ctrl + J:                 打开 VScode 下栏(输出栏)
+% Ctrl + B:                 打开 VScode 左栏(目录栏)
+% Ctrl + `:                 打开 VScode 终端栏
+% Ctrl + 0:                 定位文件
+% Ctrl + Tab:               切换已打开的文件(切标签)
+% Ctrl + Shift + P:         打开全局命令(设置)
+
+% Latex 常用快捷键：
+
+% Ctrl + Alt + J:           由代码定位到PDF
+
+

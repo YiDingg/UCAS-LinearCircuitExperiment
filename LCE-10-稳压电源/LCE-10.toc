@@ -1,0 +1,18 @@
+\contentsline {section}{\numberline {1}实验目的}{1}{section.1}%
+\contentsline {section}{\numberline {2}实验仪器}{1}{section.2}%
+\contentsline {section}{\numberline {3}实验内容及实验结果}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}All-In-One DC-DC Converter Modules}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Switching Waveform and Output Ripple}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Output Efficiency}{6}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Line Regulation}{6}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Load Regulation}{6}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Transient Response}{6}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Comparison With the Data Sheet}{8}{subsection.3.7}%
+\contentsline {section}{\numberline {4}思考题}{9}{section.4}%
+\contentsline {subsection}{\numberline {4.1}本次设计最大的亮点是什么？}{9}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}在 SX1308 的瞬态响应 (Figure \ref {fig: tran SX1308}) 中，输出电压曲线 (CH1) 周边的橙色背景是什么？}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}在负载调整率/输出电阻的测量中，我们得到了约 0.5 Ohm 的输出电阻，这个结果是真实的吗，存在哪些系统误差？}{9}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}手机充电器为开关电源，存在较强的EMI，充电时为何不影响手机的使用？}{10}{subsection.4.4}%
+\contentsline {section}{附录 A\hspace *{6pt} 原始数据记录表}{11}{subsection.4.4}%
+\contentsline {section}{附录 B \hspace *{6pt} 实验预习报告}{11}{subsection.4.4}%
+\contentsline {section}{附录 C \hspace *{6pt} Matlab Codes}{11}{figure.caption.24}%

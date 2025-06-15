@@ -12,20 +12,33 @@ assets/image-1.png
 https://github.com/YiDingg/UCAS-LinearCircuitExperiment/blob/af6c47bc8d2376e2acb8c3e5d6067fa2c38753fb/assets/image-1.png
 -->
 
-## LCE-01 二极管
 
 <!-- 图片必须要在 ".assets" 文件夹中才可这样访问, "assets" 文件夹不行 -->
 
-![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image.png>)
 
-## LCE-02 三极管
+<!-- ## LCE-01 二极管
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image.png>) -->
+
+<!-- ## LCE-02 三极管
 ![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-1.png>)
 ![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-2.png>)
 ![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-3.png>)
+ -->
+
+## LCE-06-07 运放设计
+
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy 2.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy 3.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy 4.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy 5.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy 6.png>)
+![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/LCE-06-07/image copy 7.png>)
 
 
 ## LCE-03 功率放大器
-![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-4.png>)
+<!-- ![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-4.png>) -->
 ![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-5.png>)
 ![img](<https://gcore.jsdelivr.net/gh/YiDingg/UCAS-LinearCircuitExperiment/.assets/image-6.png>)
 
